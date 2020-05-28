@@ -37,8 +37,13 @@
               <% end %>
               <li>
                 <i class="fa fa-comment"></i>
-                <a href="#comments">4</a>
+                <a href="#comments"><%= @post_image.post_comments.count %></a>
               </li>
+              <% if current_user == @post_image.user %>
+              <li>
+                <%= link_to "削除", post_image_path(@post_image), method: :delete %>
+              </li>
+              <% end %>
             </ul>
             <div class="post-content-inner mt-20">
               <p><%= @post_image.caption %></p>
@@ -47,7 +52,7 @@
 
           <div class="comment-list bt style-2" id="comments">
             <div class="float-wrapper">
-              <h2 class="comment-count">4件コメント</h2>
+              <h2 class="comment-count"><%= @post_image.post_comments.count %>件コメント</h2>
             </div>
             <ol>
               <% @post_image.post_comments.each do |post_comment| %>
@@ -55,7 +60,7 @@
                 <div class="comment-body bb">
                   <div class="comment-avatar">
                     <div class="avatar">
-                        <%= image_tag('sample-author1.jpg', style: "width: 60px; height: 60px;") %>
+                        <%= attachment_image_tag post_comment.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %>
                     </div>
                   </div>
                   <div class="comment-text">
